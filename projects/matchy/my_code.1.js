@@ -24,10 +24,8 @@ console.log(animal);
 
 // Step 6 //
 var animals = [];
-
 animals.push(animal);
 console.log(animals);
-
 var duck = {
     species: 'duck',
     name: 'Jerome',
@@ -62,6 +60,10 @@ function randomAnimal() {
     
     var chooseRandomAnimal = animals[Math.floor(Math.random() * animals.length)];
     return chooseRandomAnimal.name;
+    //var chooseRandomAnimal = Math.floor(Math.random() * animals.length);
+    //var chooseRandomAnimal = Math.round(Math.random() * (animals.length - 1));
+    // console.log(chooseRandomAnimal);  
+    // return animals[chooseRandomAnimal];
     
 }
 
@@ -69,34 +71,3 @@ friends.push(randomAnimal());
 console.log(friends);
 animals[0].friends = friends;
 //console.log(animals[0].friends);
-
-// Part 2 //
-
-// Step 1 //
-
-function search(name) {
-    for (var i = 0; i < animals.length; i++) {
-        // name = name.toLowerCase();
-        // animals[i].name = animals[i].name.toLowerCase();
-        if (name === animals[i].name) {
-            return animals[i];
-        }
-    } return null;
-}
-
-// Step 2 //
-
-function edit(name, object) {
-    for (var i = 0; i < animals.length; i++) {
-        if (name === animals[i].name) {
-            animals[i] = object;
-            return animals[i];
-        }
-    }
-}
-
-// Step 3 //
-
-function remove(name) {
-    for (var i = 0; i < animals.length; i++)
-}
