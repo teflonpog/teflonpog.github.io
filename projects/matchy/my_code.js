@@ -76,12 +76,11 @@ animals[0].friends = friends;
 
 function search(name) {
     for (var i = 0; i < animals.length; i++) {
-        // name = name.toLowerCase();
-        // animals[i].name = animals[i].name.toLowerCase();
-        if (name === animals[i].name) {
+        if (name.toLowerCase() === animals[i].name.toLowerCase()) {
             return animals[i];
         }
-    } return null;
+    } 
+    return null;
 }
 
 // Step 2 //
@@ -98,5 +97,22 @@ function edit(name, object) {
 // Step 3 //
 
 function remove(name) {
-    for (var i = 0; i < animals.length; i++)
+    for (var i = 0; i < animals.length; i++) {
+        if (name === animals[i].name) {
+            animals.splice(i, 1);
+        }
+    }
+}
+
+// Step 4 //
+
+function create(object) {
+    if (object.name.length > 0 && object.species.length > 0) {
+        for (var i = 0; i < animals.length; i++) {
+            if (object.name === animals[i].name) {
+                return;
+            }
+        }
+    }
+    animals.push(object);
 }
