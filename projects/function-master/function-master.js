@@ -180,6 +180,14 @@ function updateObject(obj, key, value) {
 
 function removeProperties(obj, stray) {
     
+	for (var i = 0; i < stray.length; i++) {
+		var currentProp = stray[i];
+		if (obj[currentProp] !== undefined) {
+			delete obj[currentProp];
+		}
+	}	
+	return obj;
+    
     // for (var i = 0; i < stray.length; i++) {
     //     if (obj[stray[i]] === stray[i]) {
     //         delete obj[stray[i]];
@@ -193,5 +201,15 @@ function removeProperties(obj, stray) {
 // Should take an array and return an array with all the duplicates removed
 
 function dedup(array) {
+    
+    var output = [];
+    
+    for (var i = 0; i < array.length; i++) {
+        var currentItem = array[i];
+        if (!(output.indexOf(currentItem) > -1)) {
+            output.push(currentItem);
+        }
+    }
+    return output;
     
 }
