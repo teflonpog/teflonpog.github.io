@@ -105,14 +105,59 @@ function addFriend(name, object) {
 // Should take a name and an object and return true if <name> is a friend of <object> and false otherwise
 
 function isFriend(name, object) {
-    
+    if (object.friends) {
+        for (var i = 0; i < object.friends.length; i++) {
+            if (object.friends[i] === name) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 // nonFriends() : 
 // Should take a name and a list of people, and return a list of all the names that <name> is not friends with
 
-function nonFriends(name, list) {
+function arrayIncludes(array, element) {
+    return (array.indexOf(element) > -1);
+}
+
+function nonFriends(name, people) {
     
+    // find the object representing the named person
+        // go through all the people
+        // if the current person's name is the same as the name given, hold on to that person
+    // get that person's friends list
+    // go through all the OTHER people
+    // go through list of people
+    // go through each person's friends
+    // ask 'is the named person friends with each of these people'
+    // instead ask 'is this person's name in the named person's friends list?'
+    // if not, add (WHAT NAME) that name to the out array
+    
+    var out = [];
+    var person;
+    for (var i = 0; i < people.length; i++) {
+        if (people[i].name === name) {
+            person = people[i];
+        }
+    }
+    
+    var friends = person.friends;
+    
+    for (var j = 0; j < people.length; j++) {
+        if (people[j] === person) {
+            continue; // moves on to the next iteration of the loop //
+        }
+        var currentPerson = people[j];
+        if (currentPerson === person) continue;
+        
+        if (!arrayIncludes(friends, currentPerson.name)) {
+            out.push(currentPerson.name);
+        }
+    }
+    
+    return out;
 }
 
 // updateObject() : 
@@ -120,12 +165,27 @@ function nonFriends(name, list) {
 
 function updateObject(obj, key, value) {
     
+    if (obj[key]) {
+        obj[key] = value;
+    } else if (!obj[key]) {
+        obj[key] = value;
+    }
+    
+    return obj;
+    
 }
 
 // removeProperties() : 
 // Should take an object and an array of strings. Should remove any properties on <object> that are listed in <array>
 
-function removeProperties(obj, strarray) {
+function removeProperties(obj, stray) {
+    
+    // for (var i = 0; i < stray.length; i++) {
+    //     if (obj[stray[i]] === stray[i]) {
+    //         delete obj[stray[i]];
+    //     }
+    // }
+    // return obj;
     
 }
 
