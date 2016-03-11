@@ -206,14 +206,16 @@ _.filter = function filter(array, func) {
     
 };
 
-// _.filter = function filter(array, func) {
-//     var filtered = [];
-//     _.each(array, function(value) {
-//         if (func(value)) {
-//             filtered.push(value);
-//         }
+// _.filter = function filter(array, fn) {
+    
+//     var out = [];
+    
+//     _.each(array, function (el, i, col) {
+//         if (fn(el, i, col)) out.push(el);
 //     });
-//     return filtered;
+    
+//     return out;
+    
 // };
 
 /** _.reject()
@@ -231,24 +233,24 @@ _.filter = function filter(array, func) {
 
 _.reject = function reject(array, func) {
     
-    var rejected = [];
+    return _.filter(array, function (el, i, arr) {
+        return !func(el, i, arr);
+    });
     
+}
+
+// _.reject = function reject(array, func) {
     
+//     var rejected = [];
     
-    
-   return rejected; 
-};
-
-
-
-
-
-
-
-
-
-
-
+//     for (var i = 0; i < array.length; i++) {
+//         if (!func(array[i], i, array)) {
+//             rejected.push(array[i]);
+//         }
+//     }
+//     return rejected;
+   
+// };
 
 // _.reject = function reject(collection, test) {
 //     var rejected = [];
@@ -279,6 +281,9 @@ _.reject = function reject(array, func) {
 *   }); -> [[2,4],[1,3,5]]
 }
 */
+
+
+
 
 
 /** _.unique()
@@ -473,6 +478,18 @@ _.some = function(collection, iterator) {
 * Examples:
 *   _.reduce([1,2,3], function(prev, curr){ return prev + curr}) -> 6
 */
+
+_.reduce = function reduce(array, fn, seed) {
+    var current = array[0];
+    var rest = array.slice(1);
+    var memo = (_.typeOf(seed) !== 'null' || _.typeOf(seed) !== 'undefined')
+    
+    
+    if (array.length) return _.reduce(rest, fn, fn(memo, current, 0));
+    return seed;
+    
+}
+
 
 // _.reduce = function(array, memo, seed) {
 //   var i = 0;
