@@ -136,12 +136,24 @@ _.last = function last(array, number) {
 *      -> should log "a" "b" "c" to the console
 */
 
+// _.each = function each(collection, func) {
+//     if (Array.isArray(collection)) {
+//         for (var i = 0; i < collection.length; i++) {
+//             func(collection[i], i, collection);
+//         }
+//     } else {
+//         for (var key in collection) {
+//             func(collection[key], key, collection);
+//         }
+//     }
+// };
+
 _.each = function each(collection, func) {
-    if (Array.isArray(collection)) {
+    if (_.typeOf(collection) === "array") {
         for (var i = 0; i < collection.length; i++) {
             func(collection[i], i, collection);
         }
-    } else {
+    } else if (_.typeOf(collection) === "object") {
         for (var key in collection) {
             func(collection[key], key, collection);
         }
@@ -175,6 +187,13 @@ _.indexOf = function indexOf(array, value) {
     });
     return output;
 };
+
+// _.indexOf = function indexOf(array, value){
+//     for (var i = 0; i < array.length; i++){
+//         if (array[i] === value) return i;
+//     }
+//     return -1;
+// };
 
 
 /** _.filter()
@@ -282,9 +301,11 @@ _.reject = function reject(array, func) {
 }
 */
 
-
-
-
+_.partition = function partition(array, func) {
+    
+    return [_.filter(array, func), _.reject(array, func)];
+    
+};
 
 /** _.unique()
 * Arguments:
@@ -298,14 +319,13 @@ _.reject = function reject(array, func) {
 
 _.unique = function unique(array) {
     var output = [];
-    _.each(array, function(value) {
-        if (_.contains(output, value) === -1) {
-            output.push(value);
+    _.each(array, function(el, i, val) {
+        if (_.indexOf(output, el) === -1) {
+            output.push(el);
         }
     });
     return output;
 };
-
 
 /** _.map()
 * Arguments:
@@ -323,13 +343,24 @@ _.unique = function unique(array) {
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
 
-_.map = function(collection, iterator) {
-    var iterated = [];
-    _.each(collection, function(value) {
-      iterated.push(iterator(value));
-    });
-    return iterated;
+
+_.map = function map(collection, func) {
+    
+    var output = [];
+    if (_.typeOf(collection) === "array") {
+        _.each(collection, function(element, index, collection) {
+            output.push(func(element, index, collection));
+        });
+    }
+    if (_.typeOf(collection) === "object") {
+        _.each(collection, function(value, key, collection) {
+            output.push(func(value, key, collection));
+        });
+    }
+    return output;
+    
 };
+
 
 
 /** _.pluck()
@@ -343,10 +374,12 @@ _.map = function(collection, iterator) {
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
 
-_.pluck = function(collection, key) {
-    return _.map(collection, function(item) {
-      return item[key];
+_.pluck = function pluck(array, property) {
+    
+    return _.map(array, function(value) {
+      return value[property];
     });
+    
 };
 
 /** _.contains()
@@ -364,15 +397,21 @@ _.pluck = function(collection, key) {
 *   _.contains([1,"two", 3.14], "two") -> true
 */
 
-_.contains = function(array, value) {
-    return _.reduce(array, function(found, item) {
-        if (found) {
-            return true;
-        }
-        return item === value;
-    }, false);
-};
+// _.contains = function contains(array, value) {
+    
+//     for (var i = 0; i < array.length; i++) {
+//         if (array[array[i]] === value) {
+//             return true;
+//         }        
+//     } return false;
+    
+// };
 
+_.contains = function contains(array, value) {
+    
+    return _.indexOf(array, value) > -1 ? true: false;
+    
+};
 
 /** _.every()
 * Arguments:
@@ -395,20 +434,44 @@ _.contains = function(array, value) {
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
-_.every = function(collection, iterator) {
-    return _.reduce(collection, function(wasFound, value) {
-      if (iterator === undefined) {
-        iterator = _.identity;
-      }
-      if (wasFound && iterator(value)) {
-        return true;
-      }
-      else {
-        return false;
-      }
-      //return value;
-    }, true);
+_.every = function every(collection, func) {
+    
+    if (_.typeOf(collection) === "array") {
+        _.each(collection, function(element, index, collection) {
+            
+            
+            
+        });
+    }
+    if (_.typeOf(collection) === "object") {
+        _.each(collection, function(value, key, collection) {
+            
+            
+            
+        });
+    }    
+  
+    
 };
+
+
+
+
+
+// _.every = function(collection, func) {
+//     return _.reduce(collection, function(wasFound, value) {
+//       if (func === undefined) {
+//         func = _.identity;
+//       }
+//       if (wasFound && func(value)) {
+//         return true;
+//       }
+//       else {
+//         return false;
+//       }
+//       //return value;
+//     }, true);
+// };
 
 
 /** _.some()
@@ -432,12 +495,12 @@ _.every = function(collection, iterator) {
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 
-_.some = function(collection, iterator) {
+_.some = function(collection, func) {
     return _.reduce(collection, function(wasFound, value) {
-      if (iterator === undefined) {
-        iterator = _.identity;
+      if (func === undefined) {
+        func = _.identity;
       }
-      if (wasFound || iterator(value)) {
+      if (wasFound || func(value)) {
         return true;
       }else {
         return false;
@@ -479,16 +542,29 @@ _.some = function(collection, iterator) {
 *   _.reduce([1,2,3], function(prev, curr){ return prev + curr}) -> 6
 */
 
-_.reduce = function reduce(array, fn, seed) {
-    var current = array[0];
-    var rest = array.slice(1);
-    var memo = (_.typeOf(seed) !== 'null' || _.typeOf(seed) !== 'undefined')
+_.reduce = function reduce(array, func, seed) {
+    
+  var seedUndefined = arguments.length < 3;
+  _.each(array, function(previousResult, element, index) {
+    if (seedUndefined) {
+      seedUndefined = false;
+      seed = previousResult;
+    } else seed = func(seed, previousResult, element, index);
+  });
+  return seed;
+  
+};
+
+// _.reduce = function reduce(array, func, seed) {
+    
+//     _.each(array, function(previousResult, element, index) {
+        
+//     })
     
     
-    if (array.length) return _.reduce(rest, fn, fn(memo, current, 0));
-    return seed;
     
-}
+    
+// }
 
 
 // _.reduce = function(array, memo, seed) {
