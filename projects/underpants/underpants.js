@@ -435,28 +435,65 @@ _.contains = function contains(array, value) {
 */
 
 _.every = function every(collection, func) {
-    
-    if (_.typeOf(collection) === "array") {
-        _.each(collection, function(element, index, collection) {
-            
-            
-            
-        });
+    var filter;
+    if(_.typeOf(collection) === 'array'){
+        if(_.typeOf(func) === 'function'){
+            filter = _.filter(collection, func);
+            return (filter.length === collection.length);
+        } 
+        else{
+            filter = _.filter(collection, function(el, i, arr) {
+                return el;
+            });
+            return (filter.length === collection.length);
+        }
     }
-    if (_.typeOf(collection) === "object") {
-        _.each(collection, function(value, key, collection) {
-            
-            
-            
-        });
-    }    
-  
+    if(_.typeOf(collection) === 'object'){
+       var theKeys = Object.keys(collection);
+       if(_.typeOf(func) === 'function'){
+           filter = _.filter(theKeys, function(el, i, arr) {
+               return func(collection[el], el, collection);
+           }); 
+           return (theKeys.length === filter.length);
+       }
+       else{
+           filter = _.filter(theKeys, function(el, i, arr) {
+               return collection[el];
+           });
+       }
+    }
     
 };
 
+// _.every = function every(collection, func) {
+    
+//     var filtered;
+//     if (_.typeOf(collection) === 'array') {
+//         if (_.typeOf(func) === 'function') {
+//             filtered = _.filter(collection, func);
+//             return (filtered.length === collection.length);
+//         } else {
+//             filtered = _.filter(collection, function(el, i, arr) {
+//                 return el;
+//             });
+//             return (filtered.length === collection.length);
+//         }
+//     }
+//     if (_.typeOf(collection) === 'object') {
+//         var keys = Object.keys(collection);
+//         filtered = _.filter(keys, function(el, i, arr) {
+//             return func(collection[keys[i]], keys[i], collection);
+//         });
+//         return (keys.length === filtered.length);
+//     }
 
+// };
 
-
+// _.every = function(collection, func) {
+//     return _.reduce(collection, function(allFound, item) {
+//         return !!func(item) && allFound;
+//     }, true);
+// };
 
 // _.every = function(collection, func) {
 //     return _.reduce(collection, function(wasFound, value) {
@@ -495,32 +532,74 @@ _.every = function every(collection, func) {
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 
-_.some = function(collection, func) {
-    return _.reduce(collection, function(wasFound, value) {
-      if (func === undefined) {
-        func = _.identity;
-      }
-      if (wasFound || func(value)) {
-        return true;
-      }else {
-        return false;
-      }
-      //return value;
-    }, false);
-    // TIP: There's a very clever way to re-use every() here.
+// _.some = function some(collection, func) { 
+//     return !(_.every(collection, function(value) {
+//         return !func(value);
+//     }));
+// }
 
-//   };
+_.some = function some(col, func) {
+    
+    var filter;
+    if(_.typeOf(col) === 'array'){
+        if(_.typeOf(func) === 'function'){
+            filter = _.filter(col, func);
+            return (filter.length === col.length);
+        } 
+        else{
+            filter = _.filter(col, function(el, i, arr) {
+                return el;
+            });
+            return (filter.length === col.length);
+        }
+    }
+    if(_.typeOf(col) === 'object'){
+       var theKeys = Object.keys(col);
+       if(_.typeOf(func) === 'function'){
+           filter = _.filter(theKeys, function(el, i, arr) {
+               return func(col[el], el, col);
+           }); 
+           return (theKeys.length === filter.length);
+       }
+       else{
+           filter = _.filter(theKeys, function(el, i, arr) {
+               return col[el];
+           });
+       }
+    }
+    
+};
+
+
+
+
+// _.some = function(collection, func) {
+//     return _.reduce(collection, function(wasFound, value) {
+//       if (func === undefined) {
+//         func = _.identity;
+//       }
+//       if (wasFound || func(value)) {
+//         return true;
+//       }else {
+//         return false;
+//       }
+//       //return value;
+//     }, false);
+//     // TIP: There's a very clever way to re-use every() here.
+
+// };
+
 // _.some = function(collection, test) {
 //     return _.reduce(collection, function(memo, element) {
 //         memo[test(element)];
 //     }, true);
-        // if(test()) {
-        //     return true;
-        // }  else {
-        //     return false;
-        // }
-    // }, true);
-};
+//         if(test()) {
+//             return true;
+//         }  else {
+//             return false;
+//         }
+//     }, true);
+// };
 
 
 /** _.reduce()
