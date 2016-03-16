@@ -136,18 +136,6 @@ _.last = function last(array, number) {
 *      -> should log "a" "b" "c" to the console
 */
 
-// _.each = function each(collection, func) {
-//     if (Array.isArray(collection)) {
-//         for (var i = 0; i < collection.length; i++) {
-//             func(collection[i], i, collection);
-//         }
-//     } else {
-//         for (var key in collection) {
-//             func(collection[key], key, collection);
-//         }
-//     }
-// };
-
 _.each = function each(collection, func) {
     if (_.typeOf(collection) === "array") {
         for (var i = 0; i < collection.length; i++) {
@@ -159,7 +147,6 @@ _.each = function each(collection, func) {
         }
     }
 };
-
 
 /** _.indexOf()
 * Arguments:
@@ -187,14 +174,6 @@ _.indexOf = function indexOf(array, value) {
     });
     return output;
 };
-
-// _.indexOf = function indexOf(array, value){
-//     for (var i = 0; i < array.length; i++){
-//         if (array[i] === value) return i;
-//     }
-//     return -1;
-// };
-
 
 /** _.filter()
 * Arguments:
@@ -225,18 +204,6 @@ _.filter = function filter(array, func) {
     
 };
 
-// _.filter = function filter(array, fn) {
-    
-//     var out = [];
-    
-//     _.each(array, function (el, i, col) {
-//         if (fn(el, i, col)) out.push(el);
-//     });
-    
-//     return out;
-    
-// };
-
 /** _.reject()
 * Arguments:
 *   1) An array
@@ -257,30 +224,6 @@ _.reject = function reject(array, func) {
     });
     
 }
-
-// _.reject = function reject(array, func) {
-    
-//     var rejected = [];
-    
-//     for (var i = 0; i < array.length; i++) {
-//         if (!func(array[i], i, array)) {
-//             rejected.push(array[i]);
-//         }
-//     }
-//     return rejected;
-   
-// };
-
-// _.reject = function reject(collection, test) {
-//     var rejected = [];
-//     _.each(collection, function(value) {
-//       if (test(value) === false) {
-//         rejected.push(value);
-//       }
-//     });
-//     return rejected;
-// };
-
 
 /** _.partition()
 * Arguments:
@@ -397,16 +340,6 @@ _.pluck = function pluck(array, property) {
 *   _.contains([1,"two", 3.14], "two") -> true
 */
 
-// _.contains = function contains(array, value) {
-    
-//     for (var i = 0; i < array.length; i++) {
-//         if (array[array[i]] === value) {
-//             return true;
-//         }        
-//     } return false;
-    
-// };
-
 _.contains = function contains(array, value) {
     
     return _.indexOf(array, value) > -1 ? true: false;
@@ -464,52 +397,6 @@ _.every = function every(collection, func) {
     
 };
 
-// _.every = function every(collection, func) {
-    
-//     var filtered;
-//     if (_.typeOf(collection) === 'array') {
-//         if (_.typeOf(func) === 'function') {
-//             filtered = _.filter(collection, func);
-//             return (filtered.length === collection.length);
-//         } else {
-//             filtered = _.filter(collection, function(el, i, arr) {
-//                 return el;
-//             });
-//             return (filtered.length === collection.length);
-//         }
-//     }
-//     if (_.typeOf(collection) === 'object') {
-//         var keys = Object.keys(collection);
-//         filtered = _.filter(keys, function(el, i, arr) {
-//             return func(collection[keys[i]], keys[i], collection);
-//         });
-//         return (keys.length === filtered.length);
-//     }
-
-// };
-
-// _.every = function(collection, func) {
-//     return _.reduce(collection, function(allFound, item) {
-//         return !!func(item) && allFound;
-//     }, true);
-// };
-
-// _.every = function(collection, func) {
-//     return _.reduce(collection, function(wasFound, value) {
-//       if (func === undefined) {
-//         func = _.identity;
-//       }
-//       if (wasFound && func(value)) {
-//         return true;
-//       }
-//       else {
-//         return false;
-//       }
-//       //return value;
-//     }, true);
-// };
-
-
 /** _.some()
 * Arguments:
 *   1) A collection
@@ -561,40 +448,6 @@ _.some = function some(collection, func) {
     
 };
 
-
-
-
-
-
-// _.some = function(collection, func) {
-//     return _.reduce(collection, function(wasFound, value) {
-//       if (func === undefined) {
-//         func = _.identity;
-//       }
-//       if (wasFound || func(value)) {
-//         return true;
-//       }else {
-//         return false;
-//       }
-//       //return value;
-//     }, false);
-//     // TIP: There's a very clever way to re-use every() here.
-
-// };
-
-// _.some = function(collection, test) {
-//     return _.reduce(collection, function(memo, element) {
-//         memo[test(element)];
-//     }, true);
-//         if(test()) {
-//             return true;
-//         }  else {
-//             return false;
-//         }
-//     }, true);
-// };
-
-
 /** _.reduce()
 * Arguments:
 *   1) An array
@@ -615,55 +468,20 @@ _.some = function some(collection, func) {
 */
 
 _.reduce = function reduce(array, func, seed) {
-    
-  var dees = arguments.length < 3;
-  _.each(array, function(previousResult, element, index) {
-    if (dees) {
-      dees = false;
-      seed = previousResult;
-    } else seed = func(seed, previousResult, element, index);
-  });
-  return seed;
-  
+
+    var noSeed = arguments.length < 3;
+    _.every(array, function(previousResult, element, index) {
+        if (noSeed) {
+            noSeed = false;
+            seed = previousResult;
+        }
+        else {
+            seed = func(seed, previousResult, element, index);
+        }
+    });
+    return seed;
+
 };
-
-// _.reduce = function reduce(array, func, seed) {
-    
-//     _.each(array, function(previousResult, element, index) {
-        
-//     })
-    
-    
-    
-    
-// }
-
-
-// _.reduce = function(array, memo, seed) {
-//   var i = 0;
-//   if(seed === undefined) {
-//     seed = array[0];
-//     i = 1;
-//   }
-//   var currentVal = seed;
-//   _.each(array, function(value) {
-//     currentVal = memo(currentVal, value); 
-//   });
-//   return currentVal;
-// };
-
-// _.reduce = function reduce(array, func, seed) {
-//     var iterated = seed;
-//     if (seed === undefined) {
-//       seed = array[0];
-//       array = array.slice(1);
-//     }
-//     _.each(array, function(value) {
-//       iterated = func(iterated, value);
-//     });
-//     return iterated;
-// };
-
 
 /** _.extend()
 * Arguments:
@@ -682,7 +500,7 @@ _.reduce = function reduce(array, func, seed) {
 
 _.extend = function(obj) {
     var args = Array.prototype.slice.call(arguments, 1);
-    _.each(args, function(newObj){
+    _.every(args, function(newObj){
         for (var key in newObj) {
             obj[key] = newObj[key];
         }
