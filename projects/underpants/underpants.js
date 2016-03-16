@@ -435,28 +435,27 @@ _.contains = function contains(array, value) {
 */
 
 _.every = function every(collection, func) {
+    
     var filter;
-    if(_.typeOf(collection) === 'array'){
-        if(_.typeOf(func) === 'function'){
+    if(_.typeOf(collection) === 'array') {
+        if(_.typeOf(func) === 'function') {
             filter = _.filter(collection, func);
             return (filter.length === collection.length);
-        } 
-        else{
+        } else {
             filter = _.filter(collection, function(el, i, arr) {
                 return el;
             });
             return (filter.length === collection.length);
         }
     }
-    if(_.typeOf(collection) === 'object'){
+    if(_.typeOf(collection) === 'object') {
        var theKeys = Object.keys(collection);
-       if(_.typeOf(func) === 'function'){
+       if(_.typeOf(func) === 'function') {
            filter = _.filter(theKeys, function(el, i, arr) {
                return func(collection[el], el, collection);
            }); 
            return (theKeys.length === filter.length);
-       }
-       else{
+       } else {
            filter = _.filter(theKeys, function(el, i, arr) {
                return collection[el];
            });
@@ -532,43 +531,37 @@ _.every = function every(collection, func) {
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 
-// _.some = function some(collection, func) { 
-//     return !(_.every(collection, function(value) {
-//         return !func(value);
-//     }));
-// }
-
-_.some = function some(col, func) {
+_.some = function some(collection, func) {
     
     var filter;
-    if(_.typeOf(col) === 'array'){
-        if(_.typeOf(func) === 'function'){
-            filter = _.filter(col, func);
-            return (filter.length === col.length);
-        } 
-        else{
-            filter = _.filter(col, function(el, i, arr) {
+    if(_.typeOf(collection) === 'array') {
+        if(_.typeOf(func) === 'function') {
+            filter = _.filter(collection, func);
+            return (filter.length > 0);
+        } else {
+            filter = _.filter(collection, function(el, i, arr) {
                 return el;
             });
-            return (filter.length === col.length);
+            return (filter.length === collection.length);
         }
     }
-    if(_.typeOf(col) === 'object'){
-       var theKeys = Object.keys(col);
-       if(_.typeOf(func) === 'function'){
+    if(_.typeOf(collection) === 'object') {
+       var theKeys = Object.keys(collection);
+       if(_.typeOf(func) === 'function') {
            filter = _.filter(theKeys, function(el, i, arr) {
-               return func(col[el], el, col);
+               return func(collection[el], el, collection);
            }); 
-           return (theKeys.length === filter.length);
-       }
-       else{
+           return (theKeys.length > 0);
+       } else {
            filter = _.filter(theKeys, function(el, i, arr) {
-               return col[el];
+               return collection[el];
            });
        }
     }
     
 };
+
+
 
 
 
@@ -623,10 +616,10 @@ _.some = function some(col, func) {
 
 _.reduce = function reduce(array, func, seed) {
     
-  var seedUndefined = arguments.length < 3;
+  var dees = arguments.length < 3;
   _.each(array, function(previousResult, element, index) {
-    if (seedUndefined) {
-      seedUndefined = false;
+    if (dees) {
+      dees = false;
       seed = previousResult;
     } else seed = func(seed, previousResult, element, index);
   });
