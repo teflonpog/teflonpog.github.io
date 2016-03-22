@@ -474,8 +474,7 @@ _.reduce = function reduce(array, func, seed) {
         if (noSeed) {
             noSeed = false;
             seed = previousResult;
-        }
-        else {
+        } else {
             seed = func(seed, previousResult, element, index);
         }
     });
@@ -499,13 +498,15 @@ _.reduce = function reduce(array, func, seed) {
 */
 
 _.extend = function(obj) {
+
     var args = Array.prototype.slice.call(arguments, 1);
-    _.every(args, function(newObj){
+    _.every(args, function(newObj) {
         for (var key in newObj) {
             obj[key] = newObj[key];
         }
     });
     return obj;
+
 };
 
 
