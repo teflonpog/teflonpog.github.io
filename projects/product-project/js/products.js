@@ -13,46 +13,34 @@
             console.log(status + ": " + error);
         });
         
+    function filterProducts(searchTerm) {
+	    var filtered = _.filter(products, function(p) {
+		    return searchObject(searchTerm, p);
+	    });
+	
+	    createProducts(filtered);
+	    
+    }
     
+    function searchObject(searchTerm, obj) {
         
+        return _.reduce(obj, function(memo, val) {
+            if (memo === true) return true;
+            
+            if (Array.isArray(val) || typeof val === 'object')
+                return searchObject(searchTerm, val);
+                
+            if (typeof val !== 'string') return memo;
+            
+            return (val.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+        }, false);
         
+    }
         
+    function createProducts(products) {
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    function init() {
-
-        var $ul = $('<ul>').attr('id', 'products');
+        var $products = $('#products');
+        $products.empty();
 
         var $lis = _.map(products, function(p) {
 
@@ -74,9 +62,26 @@
 
         });
 
-        $ul.append($lis);
+        $products.append($lis);
 
-        $('body').append($ul);       
+    }    
+        
+
+        
+        
+    function init() {
+        
+        createProducts(products);
+        
+        $('#search').on('keyup', function(e) {
+            var term = $(e.target).val();
+            
+            if (term.length >= 3)
+                filterProducts(term);
+            else
+                createProducts(products);
+                
+        });
         
     }
     
